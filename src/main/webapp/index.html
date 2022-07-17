@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="https://unpkg.com/purecss@2.1.0/build/pure-min.css"
+          integrity="sha384-yHIFVG6ClnONEA5yB5DJXfW2/KC173DIQrYoZMEtBvGzmf0PKiGyNEqe9N6BNDBH" crossorigin="anonymous">
+</head>
+<body>
+<div style="text-align: center;">
+    <h1>Insert task for user:</h1>
+    <form id="welcome" class="pure-form pure-form-aligned">
+        <fieldset>
+            <div class="pure-control-group">
+                <label>Id:</label>
+                <input type="text" id="id" placeholder="id"/>
+                <br/>
+                <label>Body:</label>
+                <input type="text" id="body" placeholder="body"/>
+                <br/>
+                <label>User Id:</label>
+                <input type="text" id="userId" placeholder="userId"/>
+                <br/>
+                <button class="pure-button pure-button-primary" id="addTask">Submit</button>
+            </div>
+            <div id="innerDiv">
+            </div>
+        </fieldset>
+    </form>
+    <div id="welcomeDiv" style="width: 40%; margin: 0 auto">
+        <p>Jakis tekst</p>
+    </div>
+</div>
+<script>
+    const URL_TASK = 'http://localhost:8080/task';
+    const form = document.getElementById('welcome');
+    const div = document.getElementById('welcomeDiv');
+    document.getElementById('addTask').addEventListener('click', (event) => {
+        console.log(document.getElementById("id").value.toString());
+        event.preventDefault();
+        fetch("http://localhost:8080/hello", {
+
+            // Adding method type
+            method: "POST",
+
+            // Adding body or contents to send
+            body: JSON.stringify({
+                title: document.getElementById("id").value,
+                body: document.getElementById("body").value,
+                userId: document.getElementById("userId").value
+            }),
+
+            // Adding headers to the request
+            headers: {
+                "Content-type": "application/json; charset=UTF-8"
+            }
+        })
+
+            // Converting to JSON
+            .then(response => response.json())
+
+            // Displaying results to console
+            .then(json => document.getElementById('welcomeDiv').innerHTML = `
+                <h1>${JSON.stringify(json)}</h1>
+<!--               <table style="width:100%">-->
+<!--                  <tr>-->
+<!--                    <th>Company</th>-->
+<!--                    <th>Contact</th>-->
+<!--                    <th>Country</th>-->
+<!--                  </tr>-->
+<!--                  <tr>-->
+<!--                    <td>Alfreds Futterkiste</td>-->
+<!--                    <td>Maria Anders</td>-->
+<!--                    <td>Germany</td>-->
+<!--                  </tr>-->
+<!--                  <tr>-->
+<!--                    <td>Centro comercial Moctezuma</td>-->
+<!--                    <td>Francisco Chang</td>-->
+<!--                    <td>Mexico</td>-->
+<!--                  </tr>-->
+<!--               </table>-->
+<p> dfsdiufgsdyfgsdfgs dfsgdfu sdfiusgd sigd us gf</p>
+<table class="pure-table pure-table-bordered">
+    <thead>
+        <tr>
+            <th>#</th>
+            <th>Make</th>
+            <th>Model</th>
+            <th>Year</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>1</td>
+            <td>Honda</td>
+            <td>Accord</td>
+            <td>2009</td>
+        </tr>
+        <tr>
+            <td>2</td>
+            <td>Toyota</td>
+            <td>Camry</td>
+            <td>2012</td>
+        </tr>
+        <tr>
+            <td>3</td>
+            <td>Hyundai</td>
+            <td>Elantra</td>
+            <td>2010</td>
+        </tr>
+    </tbody>
+</table>
+            `);
+    });
+
+
+</script>
+</body>
+</html>
