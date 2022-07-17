@@ -14,8 +14,6 @@ public class UserInterface {
             System.out.println("Witaj w aplikacji pogodowej!");
             System.out.println("Wybierz co chcesz zrobić:");
             System.out.println("0 - zamknij aplikację");
-            System.out.println("0 - zamknij aplikację");
-            System.out.println("0 - zamknij aplikację");
 
             String input = SCANNER.next();
 
