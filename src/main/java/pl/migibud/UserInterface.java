@@ -14,6 +14,7 @@ public class UserInterface {
             System.out.println("Witaj w aplikacji pogodowej!");
             System.out.println("Wybierz co chcesz zrobić:");
             System.out.println("0 - zamknij aplikację");
+            System.out.println("1 - dodaj nową lokalizację");
 
             String input = SCANNER.next();
 
@@ -24,9 +25,8 @@ public class UserInterface {
                     System.out.println("Nie ma takiej opcji. Wybierz jeszcze raz co chcesz zrobić");
                     break;
             }
-
         }
-
     }
+
 
 }
