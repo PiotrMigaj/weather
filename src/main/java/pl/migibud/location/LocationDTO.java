@@ -3,7 +3,7 @@ package pl.migibud.location;
 import lombok.Data;
 
 @Data
-public class LocationDTO {
+class LocationDTO {
 
     Long id;
     String city;

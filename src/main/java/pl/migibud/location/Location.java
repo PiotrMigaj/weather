@@ -1,8 +1,6 @@
 package pl.migibud.location;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import java.time.Instant;
@@ -13,7 +11,9 @@ import java.time.Instant;
 @NoArgsConstructor
 @Getter
 @Setter
-public class Location {
+@AllArgsConstructor
+@Builder
+class Location {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
