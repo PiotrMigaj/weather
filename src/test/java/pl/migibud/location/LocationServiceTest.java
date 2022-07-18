@@ -18,8 +18,6 @@ class LocationServiceTest {
 		locationService = new LocationService(locationRepository);
 	}
 
-
-
 	@Test
 	void createLocation_whenAllDataIsCorrect_returnsCorrectLocationObject(){
 		//when

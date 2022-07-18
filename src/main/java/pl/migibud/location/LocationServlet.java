@@ -42,6 +42,7 @@ public class LocationServlet extends HttpServlet {
 		List<LocationDTO> locationDTOS = locationService.getAll().stream()
 				.map(this::mapToLocationDTO)
 				.collect(Collectors.toList());
+		objectMapper.writeValue(resp.getOutputStream(),locationDTOS);
 	}
 
 	@Override
