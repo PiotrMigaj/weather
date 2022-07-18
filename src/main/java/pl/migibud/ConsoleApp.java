@@ -9,7 +9,7 @@ import pl.migibud.location.LocationRepository;
 import pl.migibud.location.LocationRepositoryHibernateImpl;
 import pl.migibud.location.LocationService;
 
-public class App {
+public class ConsoleApp {
     public static void main(String[] args) {
 
         SessionFactory sessionFactory = HibernateUtils.getSessionFactory();

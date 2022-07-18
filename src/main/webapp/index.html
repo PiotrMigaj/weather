@@ -8,110 +8,72 @@
 </head>
 <body>
 <div style="text-align: center;">
-    <h1>Insert task for user:</h1>
+    <h1>Insert location data:</h1>
     <form id="welcome" class="pure-form pure-form-aligned">
         <fieldset>
             <div class="pure-control-group">
-                <label>Id:</label>
-                <input type="text" id="id" placeholder="id"/>
+                <label>City:</label>
+                <input type="text" id="city" placeholder="city"/>
                 <br/>
-                <label>Body:</label>
-                <input type="text" id="body" placeholder="body"/>
+                <label>Region:</label>
+                <input type="text" id="region" placeholder="region"/>
                 <br/>
-                <label>User Id:</label>
-                <input type="text" id="userId" placeholder="userId"/>
+                <label>Country:</label>
+                <input type="text" id="country" placeholder="country"/>
                 <br/>
-                <button class="pure-button pure-button-primary" id="addTask">Submit</button>
-            </div>
-            <div id="innerDiv">
-            </div>
+                <label>Longitude:</label>
+                <input type="number" id="longitude" placeholder="longitude"/>
+                <br/>
+                <label>Latitude:</label>
+                <input type="number" id="latitude" placeholder="latitude"/>
+                <br/>
+                <button class="pure-button pure-button-primary" id="addLocation">Submit</button>
+                <button class="pure-button pure-button-primary" id="displayLocations">Display all locations</button>
         </fieldset>
     </form>
-    <div id="welcomeDiv" style="width: 40%; margin: 0 auto">
+    <div id="innerDiv" style="width: 40%; margin: 0 auto">
         <p>Jakis tekst</p>
     </div>
 </div>
 <script>
-    const URL_TASK = 'http://localhost:8080/task';
-    const form = document.getElementById('welcome');
-    const div = document.getElementById('welcomeDiv');
-    document.getElementById('addTask').addEventListener('click', (event) => {
-        console.log(document.getElementById("id").value.toString());
+    const URL_LOCATION = 'http://localhost:8080/location';
+    const innerDiv = document.getElementById('innerDiv');
+
+    document.getElementById('displayLocations').addEventListener('click', (event) => {
         event.preventDefault();
-        fetch("http://localhost:8080/hello", {
-
-            // Adding method type
-            method: "POST",
-
-            // Adding body or contents to send
-            body: JSON.stringify({
-                title: document.getElementById("id").value,
-                body: document.getElementById("body").value,
-                userId: document.getElementById("userId").value
-            }),
-
-            // Adding headers to the request
-            headers: {
-                "Content-type": "application/json; charset=UTF-8"
-            }
-        })
-
-            // Converting to JSON
+        fetch(URL_LOCATION)
             .then(response => response.json())
-
-            // Displaying results to console
-            .then(json => document.getElementById('welcomeDiv').innerHTML = `
-                <h1>${JSON.stringify(json)}</h1>
-<!--               <table style="width:100%">-->
-<!--                  <tr>-->
-<!--                    <th>Company</th>-->
-<!--                    <th>Contact</th>-->
-<!--                    <th>Country</th>-->
-<!--                  </tr>-->
-<!--                  <tr>-->
-<!--                    <td>Alfreds Futterkiste</td>-->
-<!--                    <td>Maria Anders</td>-->
-<!--                    <td>Germany</td>-->
-<!--                  </tr>-->
-<!--                  <tr>-->
-<!--                    <td>Centro comercial Moctezuma</td>-->
-<!--                    <td>Francisco Chang</td>-->
-<!--                    <td>Mexico</td>-->
-<!--                  </tr>-->
-<!--               </table>-->
-<p> dfsdiufgsdyfgsdfgs dfsgdfu sdfiusgd sigd us gf</p>
-<table class="pure-table pure-table-bordered">
-    <thead>
-        <tr>
-            <th>#</th>
-            <th>Make</th>
-            <th>Model</th>
-            <th>Year</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td>1</td>
-            <td>Honda</td>
-            <td>Accord</td>
-            <td>2009</td>
-        </tr>
-        <tr>
-            <td>2</td>
-            <td>Toyota</td>
-            <td>Camry</td>
-            <td>2012</td>
-        </tr>
-        <tr>
-            <td>3</td>
-            <td>Hyundai</td>
-            <td>Elantra</td>
-            <td>2010</td>
-        </tr>
-    </tbody>
-</table>
-            `);
+            .then((json)=>
+            innerDiv.innerHTML=`<p>${JSON.stringify(json)}</p>`
+            );
     });
+
+    // document.getElementById('addLocation').addEventListener('click', (event) => {
+    //     event.preventDefault();
+    //     fetch(URL_LOCATION, {
+
+    //         // Adding method type
+    //         method: "GET",
+
+    //         // Adding body or contents to send
+    //         body: JSON.stringify({
+    //             city: document.getElementById("city").value,
+    //             region: document.getElementById("region").value,
+    //             country: document.getElementById("country").value,
+    //             longitude: document.getElementById("longitude").value,
+    //             latitude: document.getElementById("latitude").value
+    //         }),
+
+    //         // Adding headers to the request
+    //         headers: {
+    //             "Content-type": "application/json; charset=UTF-8"
+    //         }
+    //     })
+    //         // Converting to JSON
+    //         .then(response => response.json())
+    //         .then(json=>console.log(JSON.stringify(json)))
+
+    // });
 
 
 </script>

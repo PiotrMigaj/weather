@@ -11,6 +11,10 @@ public class HibernateUtils {
         return InstanceHolder.sessionFactory;
     }
 
+    public static void close(){
+        InstanceHolder.sessionFactory.close();
+    }
+
     private static class InstanceHolder {
         static StandardServiceRegistry registry = new StandardServiceRegistryBuilder()
                 .configure()

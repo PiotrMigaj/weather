@@ -93,7 +93,7 @@
                 <configuration>
                     <archive>
                         <manifest>
-                            <mainClass>pl.migibud.App</mainClass>
+                            <mainClass>pl.migibud.ConsoleApp</mainClass>
                         </manifest>
                     </archive>
                 </configuration>
