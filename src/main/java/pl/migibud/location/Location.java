@@ -13,7 +13,8 @@ import java.time.Instant;
 @Setter
 @AllArgsConstructor
 @Builder
-class Location {
+@ToString
+public class Location {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -1,4 +1,4 @@
-package pl.migibud.location;
+package pl.migibud.forecast;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,12 +9,12 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-class LocationDTO {
+class ForecastDTO {
 
-    Long id;
-    String city;
-    String region;
-    String country;
-    Integer longitude;
-    Integer latitude;
+	Long id;
+	float temperature;
+	int humidity;
+	int windSpeed;
+	int pressure;
+	String windDirection;
 }

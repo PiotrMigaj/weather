@@ -2,13 +2,15 @@ package pl.migibud.location;
 
 import lombok.RequiredArgsConstructor;
 
+import java.time.Instant;
+import java.util.List;
+
 @RequiredArgsConstructor
 public class LocationService {
 
     private final LocationRepository locationRepository;
 
     Location create(String city, String region, String country, Integer longitude, Integer latitude){
-
         if (city==null||city.isBlank()){
             throw new IllegalArgumentException("Pole city nie może być puste");
         }
@@ -21,24 +23,26 @@ public class LocationService {
         if (longitude==null){
             throw new IllegalArgumentException("Pole longitude nie może być puste");
         }
-        if (longitude<=-180||longitude>=180){
+        if (longitude<-180||longitude>180){
             throw new IllegalArgumentException("Długość geograficzna musi być w zakresie od -180 do 180");
         }
         if (latitude==null){
             throw new IllegalArgumentException("Pole latitude nie może być puste");
         }
-        if (latitude<=-90||latitude>=90){
+        if (latitude<-90||latitude>90){
             throw new IllegalArgumentException("Szerokość geograficzna być w zakresie od -90 do 90");
         }
-
         Location location = Location.builder()
                 .city(city)
                 .region(region)
                 .country(country)
                 .longitude(longitude)
                 .latitude(latitude)
+                .createdDate(Instant.now())
                 .build();
-
-        return location;
+        return locationRepository.save(location);
+    }
+    List<Location> getAll(){
+        return locationRepository.findAll();
     }
 }

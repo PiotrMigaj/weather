@@ -3,6 +3,7 @@ package pl.migibud;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.hibernate.SessionFactory;
+import pl.migibud.forecast.ForecastController;
 import pl.migibud.location.LocationController;
 import pl.migibud.location.LocationRepository;
 import pl.migibud.location.LocationRepositoryHibernateImpl;
@@ -18,7 +19,8 @@ public class App {
         LocationRepository locationRepository = new LocationRepositoryHibernateImpl(sessionFactory);
         LocationService locationService = new LocationService(locationRepository);
         LocationController locationController = new LocationController(objectMapper,locationService);
-        UserInterface userInterface = new UserInterface(locationController);
+        ForecastController forecastController = new ForecastController();
+        UserInterface userInterface = new UserInterface(locationController,forecastController);
         userInterface.run();
     }
 }
