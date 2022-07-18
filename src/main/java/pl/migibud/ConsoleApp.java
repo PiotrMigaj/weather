@@ -21,7 +21,7 @@ public class ConsoleApp {
         LocationService locationService = new LocationService(locationRepository);
         LocationController locationController = new LocationController(objectMapper,locationService);
         ForecastService forecastService = new ForecastService(locationRepository);
-        ForecastController forecastController = new ForecastController(forecastService);
+        ForecastController forecastController = new ForecastController(objectMapper,forecastService);
         UserInterface userInterface = new UserInterface(locationController,forecastController);
         userInterface.run();
     }
