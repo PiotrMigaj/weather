@@ -33,7 +33,6 @@
         </fieldset>
     </form>
     <div id="innerDiv" style="width: 40%; margin: 0 auto">
-        <p>Jakis tekst</p>
     </div>
 </div>
 <script>
@@ -52,9 +51,7 @@
     document.getElementById('addLocation').addEventListener('click', (event) => {
         event.preventDefault();
         fetch(URL_LOCATION, {
-            // Adding method type
             method: "POST",
-            // Adding body or contents to send
             body: JSON.stringify({
                 city: document.getElementById("city").value,
                 region: document.getElementById("region").value,
@@ -62,12 +59,10 @@
                 longitude: document.getElementById("longitude").value,
                 latitude: document.getElementById("latitude").value
             }),
-            // Adding headers to the request
             headers: {
                 "Content-type": "application/json; charset=UTF-8"
             }
         })
-            // Converting to JSON
             .then(response => response.json())
             .then((json)=>
                 innerDiv.innerHTML=`<p>${JSON.stringify(json)}</p>`

@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.hibernate.SessionFactory;
 import pl.migibud.forecast.ForecastController;
+import pl.migibud.forecast.ForecastService;
 import pl.migibud.location.LocationController;
 import pl.migibud.location.LocationRepository;
 import pl.migibud.location.LocationRepositoryHibernateImpl;
@@ -19,7 +20,8 @@ public class ConsoleApp {
         LocationRepository locationRepository = new LocationRepositoryHibernateImpl(sessionFactory);
         LocationService locationService = new LocationService(locationRepository);
         LocationController locationController = new LocationController(objectMapper,locationService);
-        ForecastController forecastController = new ForecastController();
+        ForecastService forecastService = new ForecastService(locationRepository);
+        ForecastController forecastController = new ForecastController(forecastService);
         UserInterface userInterface = new UserInterface(locationController,forecastController);
         userInterface.run();
     }
