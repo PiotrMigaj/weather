@@ -106,7 +106,7 @@ class LocationServiceTest {
 	}
 
 	@Test
-	void shouldReturnListOfLocations(){
+	void getAllLocations_whenDatabaseContainsRecords_returnsNotNullListOfLocations(){
 		//when
 		List<Location> locations = locationService.getAll();
 		//then
