@@ -1,7 +1,10 @@
 package pl.migibud.forecast;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import pl.migibud.HibernateUtils;
+import pl.migibud.forecast.forecastapi.OpenWeatherMapApi;
 import pl.migibud.location.LocationRepository;
 import pl.migibud.location.LocationRepositoryMock;
 
@@ -11,11 +14,15 @@ import static org.junit.jupiter.api.Assertions.*;
 class ForecastServiceTest {
 
     ForecastService forecastService;
+    ObjectMapper objectMapper;
+    ForecastDataProvider forecastDataProvider;
 
     @BeforeEach
     void setUp(){
         LocationRepository locationRepository = new LocationRepositoryMock();
-        forecastService = new ForecastService(locationRepository);
+        objectMapper = new ObjectMapper();
+        forecastDataProvider = new OpenWeatherMapApi(objectMapper);
+        forecastService = new ForecastService(locationRepository,forecastDataProvider,new ForecastRepositoryHibernateImpl(HibernateUtils.getSessionFactory()));
     }
 
     @Test
@@ -25,6 +32,25 @@ class ForecastServiceTest {
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessageContaining("id");
     }
+
+    @Test
+    void getForecast_whenDayOfForecastExceedsMaxRange_throwsAnException(){
+        //then
+        assertThatThrownBy(()->forecastService.getForecast(1L,8))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessageContaining("Ilość dni");
+    }
+
+    @Test
+    void getForecast_whenDayOfForecastExceedsMinRange_throwsAnException(){
+        //then
+        assertThatThrownBy(()->forecastService.getForecast(1L,-1))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessageContaining("Ilość dni");
+    }
+
+
+
 
 
 

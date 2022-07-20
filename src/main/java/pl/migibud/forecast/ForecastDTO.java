@@ -12,9 +12,9 @@ import lombok.NoArgsConstructor;
 class ForecastDTO {
 
 	Long id;
-	float temperature;
+	double temperature;
 	int humidity;
-	int windSpeed;
+	double windSpeed;
 	int pressure;
-	String windDirection;
+	int windDirection;
 }

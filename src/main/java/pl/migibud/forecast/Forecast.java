@@ -1,8 +1,6 @@
 package pl.migibud.forecast;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import pl.migibud.location.Location;
 
 import javax.persistence.*;
@@ -14,15 +12,17 @@ import java.time.Instant;
 @NoArgsConstructor
 @Getter
 @Setter
+@AllArgsConstructor
+@Builder
 class Forecast {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	Long id;
-	float temperature;
+	double temperature;
 	int pressure;
 	int humidity;
-	int windSpeed;
+	double windSpeed;
 	int windDirection;
 	@ManyToOne
 	@JoinColumn(name = "location_id")

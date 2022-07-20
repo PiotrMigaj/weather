@@ -3,8 +3,8 @@ package pl.migibud;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.hibernate.SessionFactory;
-import pl.migibud.forecast.ForecastController;
-import pl.migibud.forecast.ForecastService;
+import pl.migibud.forecast.*;
+import pl.migibud.forecast.forecastapi.OpenWeatherMapApi;
 import pl.migibud.location.LocationController;
 import pl.migibud.location.LocationRepository;
 import pl.migibud.location.LocationRepositoryHibernateImpl;
@@ -20,8 +20,10 @@ public class ConsoleApp {
         LocationRepository locationRepository = new LocationRepositoryHibernateImpl(sessionFactory);
         LocationService locationService = new LocationService(locationRepository);
         LocationController locationController = new LocationController(objectMapper,locationService);
-        ForecastService forecastService = new ForecastService(locationRepository);
-        ForecastController forecastController = new ForecastController(objectMapper,forecastService);
+        ForecastDataProvider forecastDataProvider = new OpenWeatherMapApi(objectMapper);
+        ForecastRepository forecastRepository = new ForecastRepositoryHibernateImpl(sessionFactory);
+        ForecastService forecastService = new ForecastService(locationRepository,forecastDataProvider,forecastRepository);
+        ForecastController forecastController = new ForecastController(forecastService);
         UserInterface userInterface = new UserInterface(locationController,forecastController);
         userInterface.run();
     }
