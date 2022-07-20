@@ -116,5 +116,4 @@ public class UserInterface {
         String httpResponse = forecastController.getForecast(id, day);
         System.out.println(httpResponse);
     }
-
 }
