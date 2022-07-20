@@ -4,6 +4,7 @@ package pl.migibud.forecast.forecastapi;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
+import pl.migibud.forecast.ForecastDTO;
 import pl.migibud.forecast.ForecastDataProvider;
 
 import java.net.URI;
@@ -18,7 +19,8 @@ public class OpenWeatherMapApi implements ForecastDataProvider {
 
 	private final ObjectMapper objectMapper;
 
-	private String getResponseJson(Integer longitude,Integer latitude){
+	@Override
+	public ForecastDTO getForecastDTO(Integer day, Integer longitude, Integer latitude){
 
 		String uri = String.format("https://api.openweathermap.org/data/2.5/onecall?lat=%s&lon=%s&units=metric&exclude=hourly,minutely,alerts&appid=%s",longitude,latitude,API_ID);
 
@@ -28,43 +30,40 @@ public class OpenWeatherMapApi implements ForecastDataProvider {
 				.uri(URI.create(uri))
 				.build();
 		try {
-			HttpResponse<String> send = httpClient.send(httpRequest, HttpResponse.BodyHandlers.ofString());
-			return send.body();
+			HttpResponse<String> httpResponse = httpClient.send(httpRequest, HttpResponse.BodyHandlers.ofString());
+			String responseJson = httpResponse.body();
+			JsonNode jsonNode = this.objectMapper.readTree(responseJson);
+
+			return ForecastDTO.builder()
+					.temperature(getTemp(jsonNode,day))
+					.humidity(getHumidity(jsonNode,day))
+					.pressure(getPressure(jsonNode,day))
+					.windSpeed(getWindSpeed(jsonNode,day))
+					.windDirection(getWindDeg(jsonNode,day))
+					.build();
+
 		} catch (Exception e) {
-			throw new IllegalArgumentException("Zły adres URI api pogodowego");
+			throw new RuntimeException("Pobieranie pogody nie powiodło się: "+e.getMessage());
 		}
 	}
 
-	private JsonNode getJsonNode(Integer longitude,Integer latitude){
-		try {
-			return this.objectMapper.readTree(getResponseJson(longitude,latitude));
-		} catch (Exception e) {
-			throw new RuntimeException("Błąd w parsowaniu odpowiedzi z serwera z pogodowym API");
-		}
+	private Double getTemp(JsonNode jsonNode,Integer day) {
+		return jsonNode.get("daily").get(day).get("temp").get("day").asDouble();
 	}
 
-	@Override
-	public Double getTemp(Integer day,Integer longitude,Integer latitude) {
-		return getJsonNode(longitude,latitude).get("daily").get(day).get("temp").get("day").asDouble();
+	private Integer getPressure(JsonNode jsonNode,Integer day) {
+		return jsonNode.get("daily").get(day).get("pressure").asInt();
 	}
 
-	@Override
-	public Integer getPressure(Integer day,Integer longitude,Integer latitude) {
-		return getJsonNode(longitude,latitude).get("daily").get(day).get("pressure").asInt();
+	private Integer getHumidity(JsonNode jsonNode,Integer day) {
+		return jsonNode.get("daily").get(day).get("humidity").asInt();
 	}
 
-	@Override
-	public Integer getHumidity(Integer day,Integer longitude,Integer latitude) {
-		return getJsonNode(longitude,latitude).get("daily").get(day).get("humidity").asInt();
+	private Double getWindSpeed(JsonNode jsonNode,Integer day) {
+		return jsonNode.get("daily").get(day).get("wind_speed").asDouble();
 	}
 
-	@Override
-	public Double getWindSpeed(Integer day,Integer longitude,Integer latitude) {
-		return getJsonNode(longitude,latitude).get("daily").get(day).get("wind_speed").asDouble();
-	}
-
-	@Override
-	public Integer getWindDeg(Integer day,Integer longitude,Integer latitude) {
-		return getJsonNode(longitude,latitude).get("daily").get(day).get("wind_deg").asInt();
+	private Integer getWindDeg(JsonNode jsonNode,Integer day) {
+		return jsonNode.get("daily").get(day).get("wind_deg").asInt();
 	}
 }

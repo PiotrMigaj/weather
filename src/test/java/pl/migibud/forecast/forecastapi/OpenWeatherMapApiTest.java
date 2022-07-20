@@ -17,8 +17,8 @@ class OpenWeatherMapApiTest {
 	@Test
 	void test(){
 
-		Integer humidity = forecastDataProvider.getHumidity(2, 51, 17);
-		System.out.println(humidity);
+//		Integer humidity = forecastDataProvider.getHumidity(2, 51, 17);
+//		System.out.println(humidity);
 	}
 
 }

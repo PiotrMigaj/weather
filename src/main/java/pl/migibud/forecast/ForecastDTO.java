@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-class ForecastDTO {
+public class ForecastDTO {
 
 	Long id;
 	double temperature;

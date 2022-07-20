@@ -24,38 +24,23 @@ public class ForecastService {
             throw new IllegalArgumentException("Ilość dni w przód powinna być w zakresie od 0 do 7");
         }
 
-        Double temp = forecastDataProvider.getTemp(day, location.get().getLongitude(), location.get().getLatitude());
-        System.out.println(temp);
-        Integer pressure = forecastDataProvider.getPressure(day, location.get().getLongitude(), location.get().getLatitude());
-        System.out.println(pressure);
-        Integer humidity = forecastDataProvider.getHumidity(day, location.get().getLongitude(), location.get().getLatitude());
-        System.out.println(humidity);
-        Double windSpeed = forecastDataProvider.getWindSpeed(day, location.get().getLongitude(), location.get().getLatitude());
-        System.out.println(windSpeed);
-        Integer windDeg = forecastDataProvider.getWindDeg(day, location.get().getLongitude(), location.get().getLatitude());
-        System.out.println(windDeg);
-
         Location location1 = location.get();
         System.out.println(location1);
 
+        ForecastDTO forecastDTO = forecastDataProvider.getForecastDTO(day,location1.getLongitude(),location1.getLatitude());
+
         Forecast forecast = Forecast.builder()
-                .temperature(temp)
-                .pressure(pressure)
-                .humidity(humidity)
-                .windSpeed(windSpeed)
-                .windDirection(windDeg)
+                .temperature(forecastDTO.getTemperature())
+                .pressure(forecastDTO.getPressure())
+                .humidity(forecastDTO.getHumidity())
+                .windSpeed(forecastDTO.getWindSpeed())
+                .windDirection(forecastDTO.getWindDirection())
                 .location(location1)
                 .createDate(Instant.now())
                 .forecastDate(Instant.now())
                 .build();
 
         forecastRepository.save(forecast);
-
-
-
-
-        return null;
+        return forecast;
     }
-
-
 }

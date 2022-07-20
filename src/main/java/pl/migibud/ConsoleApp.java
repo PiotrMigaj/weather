@@ -23,7 +23,7 @@ public class ConsoleApp {
         ForecastDataProvider forecastDataProvider = new OpenWeatherMapApi(objectMapper);
         ForecastRepository forecastRepository = new ForecastRepositoryHibernateImpl(sessionFactory);
         ForecastService forecastService = new ForecastService(locationRepository,forecastDataProvider,forecastRepository);
-        ForecastController forecastController = new ForecastController(forecastService);
+        ForecastController forecastController = new ForecastController(forecastService,objectMapper);
         UserInterface userInterface = new UserInterface(locationController,forecastController);
         userInterface.run();
     }
