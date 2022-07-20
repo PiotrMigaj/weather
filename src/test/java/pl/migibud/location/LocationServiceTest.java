@@ -46,6 +46,19 @@ class LocationServiceTest {
 	}
 
 	@Test
+	void createLocation_whenAllDataIsCorrectExceptRegionWhichIsNull_returnsCorrectLocationObjectWithNullRegion(){
+		//when
+		Location location = locationService.create("Wrocław", null, "Polska", 45, 50);
+		//then
+		assertThat(location.getId()).isNotNull();
+		assertThat(location.getCity()).isEqualTo("Wrocław");
+		assertThat(location.getRegion()).isNull();
+		assertThat(location.getCountry()).isEqualTo("Polska");
+		assertThat(location.getLongitude()).isEqualTo(45);
+		assertThat(location.getLatitude()).isEqualTo(50);
+	}
+
+	@Test
 	void createLocation_whenCityIsNull_throwsAnException(){
 		//when
 		Throwable throwable = catchThrowable(()->locationService.create(null, "", "Polska", -180, -90));

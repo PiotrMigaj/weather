@@ -17,7 +17,6 @@ public class ForecastRepositoryHibernateImpl implements ForecastRepository {
 
 	@Override
 	public Forecast save(Forecast forecast) {
-
 		Transaction transaction = null;
 		try (Session session = sessionFactory.openSession()) {
 			transaction = session.beginTransaction();

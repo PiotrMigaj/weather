@@ -15,13 +15,12 @@ import java.net.http.HttpResponse;
 @RequiredArgsConstructor
 public class OpenWeatherMapApi implements ForecastDataProvider {
 
-	private static final String API_ID = "bcce0ca147006a7b278e974a418b3730";
+	private static final String API_ID = "bcce0ca147006a7b278e974a418b3730"; // todo move to configuration class / file
 
 	private final ObjectMapper objectMapper;
 
 	@Override
 	public ForecastDTO getForecastDTO(Integer day, Integer longitude, Integer latitude){
-
 		String uri = String.format("https://api.openweathermap.org/data/2.5/onecall?lat=%s&lon=%s&units=metric&exclude=hourly,minutely,alerts&appid=%s",longitude,latitude,API_ID);
 
 		HttpClient httpClient = HttpClient.newHttpClient();
@@ -29,6 +28,7 @@ public class OpenWeatherMapApi implements ForecastDataProvider {
 				.GET()
 				.uri(URI.create(uri))
 				.build();
+
 		try {
 			HttpResponse<String> httpResponse = httpClient.send(httpRequest, HttpResponse.BodyHandlers.ofString());
 			String responseJson = httpResponse.body();
@@ -47,7 +47,7 @@ public class OpenWeatherMapApi implements ForecastDataProvider {
 		}
 	}
 
-	private Double getTemp(JsonNode jsonNode,Integer day) {
+	private Double getTemp(JsonNode jsonNode, Integer day) {
 		return jsonNode.get("daily").get(day).get("temp").get("day").asDouble();
 	}
 

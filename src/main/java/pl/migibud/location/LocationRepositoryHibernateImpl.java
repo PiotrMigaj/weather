@@ -15,7 +15,6 @@ public class LocationRepositoryHibernateImpl implements LocationRepository {
 
 	@Override
 	public Location save(Location location) {
-
 		Transaction transaction = null;
 		try (Session session = sessionFactory.openSession()) {
 			transaction = session.beginTransaction();
