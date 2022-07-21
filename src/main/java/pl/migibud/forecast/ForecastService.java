@@ -33,10 +33,9 @@ public class ForecastService {
                 .createDate(Instant.now())
                 .forecastDate(forecastClientResponse.getForecastDate())
                 .build();
-
-        Forecast save = forecastRepository.save(forecast);
         Forecast forecast1 = forecastRepository.getActiveForecast(location, LocalDate.now().plusDays(day), Instant.now()).get();
-        System.out.println(forecast1);
-        return save;
+        System.out.println("Forecast from DB: "+forecast1);
+
+        return forecastRepository.save(forecast);
     }
 }
