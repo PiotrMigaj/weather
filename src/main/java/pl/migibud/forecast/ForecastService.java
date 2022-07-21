@@ -35,14 +35,8 @@ public class ForecastService {
                 .build();
 
         Forecast save = forecastRepository.save(forecast);
-//        Forecast forecast1 = forecastRepository.getActiveForecast(location, getForecastInstant(day), LocalDate.now()).get();
-//        System.out.println(forecast1);
+        Forecast forecast1 = forecastRepository.getActiveForecast(location, LocalDate.now().plusDays(day), Instant.now()).get();
+        System.out.println(forecast1);
         return save;
-    }
-
-    private Instant getForecastInstant(Integer day){
-
-        LocalDateTime localDateTime = LocalDateTime.of(LocalDate.now().plusDays(day),LocalTime.of(12,0,0));
-        return localDateTime.toInstant(ZoneOffset.UTC);
     }
 }

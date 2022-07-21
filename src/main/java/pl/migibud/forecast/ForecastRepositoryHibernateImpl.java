@@ -34,20 +34,21 @@ public class ForecastRepositoryHibernateImpl implements ForecastRepository {
 	}
 
 	@Override
-	public Optional<Forecast> getActiveForecast(Location location, Instant forecastDate, LocalDate currentDate) {
+	public Optional<Forecast> getActiveForecast(Location location, LocalDate forecastDate, Instant currentDate) {
 
 		Transaction transaction = null;
-		try(Session session = sessionFactory.openSession()){
+		try (Session session = sessionFactory.openSession()) {
 			transaction = session.beginTransaction();
-			Optional<Forecast> forecast = session.createQuery("SELECT f FROM Forecast f WHERE f.location =:location AND current_date(f.createDate) ='2022-07-20'", Forecast.class)
-					.setParameter("location", location)
-					.setParameter("forecastDate",LocalDate.of(2022,7,20))
-					.getResultList()
-					.stream().findFirst();
+			Optional<Forecast> forecast =
+					session.createQuery("SELECT f FROM Forecast f WHERE f.location=:location AND DATE(f.forecastDate) =DATE(:forecastDate)", Forecast.class)
+							.setParameter("location", location)
+							.setParameter("forecastDate", forecastDate)
+							.getResultList()
+							.stream().findFirst();
 			transaction.commit();
 			return forecast;
-		}catch (Exception e){
-			if (transaction!=null){
+		} catch (Exception e) {
+			if (transaction != null) {
 				transaction.rollback();
 			}
 			return Optional.empty();
