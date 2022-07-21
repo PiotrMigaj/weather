@@ -11,8 +11,7 @@ public class UserInterface {
         System.out.println("Aplikacja jest uruchomiana\n");
 
         while (true) {
-            System.out.println("Witaj w aplikacji pogodowej!");
-            System.out.println("Wybierz co chcesz zrobić:");
+            System.out.println("Witaj w aplikacji pogodowej!\nWybierz co chcesz zrobić:");
             System.out.println("0 - zamknij aplikację");
 
             String input = SCANNER.next();
