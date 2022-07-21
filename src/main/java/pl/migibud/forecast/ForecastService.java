@@ -6,8 +6,7 @@ import pl.migibud.forecast.forecastapi.ForecastClientResponse;
 import pl.migibud.location.Location;
 import pl.migibud.location.LocationRepository;
 
-import java.time.Instant;
-import java.time.LocalDate;
+import java.time.*;
 import java.util.Optional;
 
 @RequiredArgsConstructor
@@ -35,9 +34,15 @@ public class ForecastService {
                 .forecastDate(forecastClientResponse.getForecastDate())
                 .build();
 
-        forecastRepository.save(forecast);
-        Forecast forecast1 = forecastRepository.getActiveForecast(location, Instant.now(), LocalDate.now()).get();
-        System.out.println(forecast1);
-        return forecast;
+        Forecast save = forecastRepository.save(forecast);
+//        Forecast forecast1 = forecastRepository.getActiveForecast(location, getForecastInstant(day), LocalDate.now()).get();
+//        System.out.println(forecast1);
+        return save;
+    }
+
+    private Instant getForecastInstant(Integer day){
+
+        LocalDateTime localDateTime = LocalDateTime.of(LocalDate.now().plusDays(day),LocalTime.of(12,0,0));
+        return localDateTime.toInstant(ZoneOffset.UTC);
     }
 }

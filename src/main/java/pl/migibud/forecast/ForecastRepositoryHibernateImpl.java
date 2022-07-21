@@ -39,9 +39,9 @@ public class ForecastRepositoryHibernateImpl implements ForecastRepository {
 		Transaction transaction = null;
 		try(Session session = sessionFactory.openSession()){
 			transaction = session.beginTransaction();
-			Optional<Forecast> forecast = session.createQuery("SELECT f FROM Forecast f WHERE f.location =:location AND LocalDate.ofInstant(f.createDate, ZoneId.systemDefault()) =:createDate", Forecast.class)
+			Optional<Forecast> forecast = session.createQuery("SELECT f FROM Forecast f WHERE f.location =:location AND f.createDate =:forecastDate", Forecast.class)
 					.setParameter("location", location)
-					.setParameter("createDate",LocalDate.of(2022,07,20))
+					.setParameter("forecastDate",forecastDate)
 					.getResultList()
 					.stream().findFirst();
 			transaction.commit();

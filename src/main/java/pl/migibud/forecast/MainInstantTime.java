@@ -8,21 +8,26 @@ import java.time.*;
 public class MainInstantTime {
 	public static void main(String[] args) {
 
-		Instant now = Instant.now();
-		System.out.println(now);
+		Integer day = 1;
 
-		LocalDate localDate = LocalDate.ofInstant(now, ZoneId.systemDefault());
-		System.out.println(localDate);
+		LocalDate localDate = LocalDate.now();
+		int monthValue = localDate.getMonthValue();
+		int year = localDate.getYear();
+		int dayOfMonth = localDate.getDayOfMonth() + 1;
+		System.out.println(dayOfMonth);
 
+		LocalDate localDate1 = LocalDate.of(year,monthValue,dayOfMonth);
+		System.out.println(localDate1);
 
-		LocalDate now1 = LocalDate.of(2022,7,22);
-		System.out.println(now1);
+		LocalTime localTime = LocalTime.of(12,0,0);
+		System.out.println(localTime);
 
-		Instant instant = now1.atStartOfDay(ZoneId.systemDefault()).toInstant();
+		LocalDateTime localDateTime = LocalDateTime.of(localDate1,localTime);
+		System.out.println(localDateTime);
+
+		Instant instant = localDateTime.toInstant(ZoneOffset.UTC);
 		System.out.println(instant);
 
-		int i = now.compareTo(instant);
-		System.out.println(i);
 
 	}
 }
