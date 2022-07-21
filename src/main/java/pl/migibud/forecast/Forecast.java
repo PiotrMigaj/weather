@@ -14,6 +14,7 @@ import java.time.Instant;
 @Setter
 @AllArgsConstructor
 @Builder
+@ToString
 class Forecast {
 
 	@Id

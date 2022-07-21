@@ -7,11 +7,12 @@ import java.util.List;
 
 
 @Data
-public class ForecastClientResponseDTO {
+class ForecastClientResponseDTO {
 
     private List<SingleForecastDTO> daily;
 
-    private static class SingleForecastDTO{
+    @Data
+    static class SingleForecastDTO{
         @JsonProperty("dt")
         private Long timestamp;
         @JsonProperty("temp")
@@ -23,7 +24,8 @@ public class ForecastClientResponseDTO {
         @JsonProperty("wind_deg")
         private Integer windDeg;
 
-        public static class TemperatureDTO{
+        @Data
+        static class TemperatureDTO{
             private Double day;
         }
     }

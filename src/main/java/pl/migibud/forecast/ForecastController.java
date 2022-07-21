@@ -26,7 +26,7 @@ public class ForecastController {
                 .pressure(forecast.getPressure())
                 .humidity(forecast.getHumidity())
                 .windSpeed(forecast.getWindSpeed())
-                .windDirection(forecast.getWindDirection())
+//                .windDirection(forecast.getWindDirection())
                 .build();
     }
 }

@@ -4,25 +4,24 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import pl.migibud.HibernateUtils;
-import pl.migibud.forecast.forecastapi.OpenWeatherMapApi;
+import pl.migibud.forecast.forecastapi.ForecastClient;
 import pl.migibud.location.LocationRepository;
 import pl.migibud.location.LocationRepositoryMock;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.junit.jupiter.api.Assertions.*;
 
 class ForecastServiceTest {
 
     ForecastService forecastService;
     ObjectMapper objectMapper;
-    ForecastDataProvider forecastDataProvider;
+    ForecastClient forecastClient;
 
     @BeforeEach
     void setUp(){
         LocationRepository locationRepository = new LocationRepositoryMock();
         objectMapper = new ObjectMapper();
-        forecastDataProvider = new OpenWeatherMapApi(objectMapper);
-        forecastService = new ForecastService(locationRepository,forecastDataProvider,new ForecastRepositoryHibernateImpl(HibernateUtils.getSessionFactory()));
+        forecastClient = new ForecastClient(objectMapper);
+        forecastService = new ForecastService(locationRepository, forecastClient,new ForecastRepositoryHibernateImpl(HibernateUtils.getSessionFactory()));
     }
 
     @Test

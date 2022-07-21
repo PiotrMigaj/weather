@@ -3,7 +3,6 @@ package pl.migibud.location;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 
-import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -17,7 +16,7 @@ public class LocationController {
         try {
             LocationDTO locationDTO = objectMapper.readValue(json, LocationDTO.class);
             Location location = locationService.create(locationDTO.getCity(), locationDTO.getRegion(), locationDTO.getCountry(), locationDTO.getLongitude(), locationDTO.getLatitude());
-            LocationDTO response = LocationMapperUtil.mapToLocationDTO(location);
+            LocationDTO response = LocationMapper.mapToLocationDTO(location);
             return objectMapper.writeValueAsString(response);
         } catch (Exception e) {
             return String.format("{\"errorMessage\":\"%s\"}", e.getMessage());
@@ -28,7 +27,7 @@ public class LocationController {
         try {
             List<Location> locations = locationService.getAll();
             List<LocationDTO> locationDTOS = locations.stream()
-                    .map(LocationMapperUtil::mapToLocationDTO)
+                    .map(LocationMapper::mapToLocationDTO)
                     .collect(Collectors.toList());
             return objectMapper.writeValueAsString(locationDTOS);
         } catch (Exception e) {

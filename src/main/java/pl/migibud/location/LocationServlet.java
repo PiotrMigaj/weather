@@ -40,7 +40,7 @@ public class LocationServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		resp.setContentType("application/json;charset=UTF-8");
 		List<LocationDTO> locationDTOS = locationService.getAll().stream()
-				.map(LocationMapperUtil::mapToLocationDTO)
+				.map(LocationMapper::mapToLocationDTO)
 				.collect(Collectors.toList());
 		objectMapper.writeValue(resp.getOutputStream(),locationDTOS);
 	}
@@ -52,7 +52,7 @@ public class LocationServlet extends HttpServlet {
 			LocationDTO locationDTO = objectMapper.readValue(req.getInputStream(), LocationDTO.class);
 			logger.warn("LocationDTO: "+locationDTO);
 			Location location = locationService.create(locationDTO.getCity(),locationDTO.getRegion(),locationDTO.getCountry(), locationDTO.getLongitude(), locationDTO.getLatitude());
-			LocationDTO response = LocationMapperUtil.mapToLocationDTO(location);
+			LocationDTO response = LocationMapper.mapToLocationDTO(location);
 			objectMapper.writeValue(resp.getOutputStream(),response);
 		} catch (Exception e) {
 			objectMapper.writeValue(resp.getOutputStream(),String.format("{\"errorMessage\":\"%s\"}",e.getMessage()));

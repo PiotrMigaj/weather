@@ -1,6 +1,6 @@
 package pl.migibud.location;
 
-class LocationMapperUtil { // todo rename to LocationMapper
+class LocationMapper {
 
     static LocationDTO mapToLocationDTO(Location location) { // mapToLocationDTO asLocationDTO
         return LocationDTO.builder()
