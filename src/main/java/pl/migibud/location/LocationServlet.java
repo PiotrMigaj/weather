@@ -16,57 +16,46 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @WebServlet(
-		name = "LocationServlet",
-		urlPatterns = {"/location"}
+        name = "LocationServlet",
+        urlPatterns = {"/location"}
 )
 public class LocationServlet extends HttpServlet {
 
-	private final Logger logger = LoggerFactory.getLogger(LocationServlet.class);
-	private final LocationService locationService;
-	private final ObjectMapper objectMapper;
+    private final Logger logger = LoggerFactory.getLogger(LocationServlet.class);
+    private final LocationService locationService;
+    private final ObjectMapper objectMapper;
 
 
-	public LocationServlet() {
-		this(new LocationService(new LocationRepositoryHibernateImpl(HibernateUtils.getSessionFactory())),new ObjectMapper());
-	}
+    public LocationServlet() {
+        this(new LocationService(new LocationRepositoryHibernateImpl(HibernateUtils.getSessionFactory())), new ObjectMapper());
+    }
 
-	public LocationServlet(LocationService locationService, ObjectMapper objectMapper) {
-		this.locationService = locationService;
-		this.objectMapper = objectMapper;
-		this.objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-	}
+    public LocationServlet(LocationService locationService, ObjectMapper objectMapper) {
+        this.locationService = locationService;
+        this.objectMapper = objectMapper;
+        this.objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+    }
 
-	@Override
-	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		resp.setContentType("application/json;charset=UTF-8");
-		List<LocationDTO> locationDTOS = locationService.getAll().stream()
-				.map(LocationMapper::mapToLocationDTO)
-				.collect(Collectors.toList());
-		objectMapper.writeValue(resp.getOutputStream(),locationDTOS);
-	}
+    @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        resp.setContentType("application/json;charset=UTF-8");
+        List<LocationDTO> locationDTOS = locationService.getAll().stream()
+                .map(LocationMapper::mapToLocationDTO)
+                .collect(Collectors.toList());
+        objectMapper.writeValue(resp.getOutputStream(), locationDTOS);
+    }
 
-	@Override
-	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		try {
-			resp.setContentType("application/json;charset=UTF-8");
-			LocationDTO locationDTO = objectMapper.readValue(req.getInputStream(), LocationDTO.class);
-			logger.warn("LocationDTO: "+locationDTO);
-			Location location = locationService.create(locationDTO.getCity(),locationDTO.getRegion(),locationDTO.getCountry(), locationDTO.getLongitude(), locationDTO.getLatitude());
-			LocationDTO response = LocationMapper.mapToLocationDTO(location);
-			objectMapper.writeValue(resp.getOutputStream(),response);
-		} catch (Exception e) {
-			objectMapper.writeValue(resp.getOutputStream(),String.format("{\"errorMessage\":\"%s\"}",e.getMessage()));
-		}
-	}
-
-//	private LocationDTO mapToLocationDTO(Location location){
-//		return LocationDTO.builder()
-//				.id(location.getId())
-//				.city(location.getCity())
-//				.region(location.getRegion())
-//				.country(location.getCountry())
-//				.longitude(location.getLongitude())
-//				.latitude(location.getLatitude())
-//				.build();
-//	}
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        try {
+            resp.setContentType("application/json;charset=UTF-8");
+            LocationDTO locationDTO = objectMapper.readValue(req.getInputStream(), LocationDTO.class);
+            logger.info("LocationDTO: " + locationDTO);
+            Location location = locationService.create(locationDTO.getCity(), locationDTO.getRegion(), locationDTO.getCountry(), locationDTO.getLongitude(), locationDTO.getLatitude());
+            LocationDTO response = LocationMapper.mapToLocationDTO(location);
+            objectMapper.writeValue(resp.getOutputStream(), response);
+        } catch (Exception e) {
+            objectMapper.writeValue(resp.getOutputStream(), String.format("{\"errorMessage\":\"%s\"}", e.getMessage()));
+        }
+    }
 }

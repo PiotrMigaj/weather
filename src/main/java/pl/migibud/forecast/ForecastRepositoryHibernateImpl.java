@@ -34,15 +34,15 @@ public class ForecastRepositoryHibernateImpl implements ForecastRepository {
     }
 
     @Override
-    public Optional<Forecast> getActiveForecast(Location location, LocalDate forecastDate, Instant currentDate) {
+    public Optional<Forecast> getActiveForecast(Location location, LocalDate forecastDate) {
         Transaction transaction = null;
         try (Session session = sessionFactory.openSession()) {
             transaction = session.beginTransaction();
             Optional<Forecast> forecast =
-                    session.createQuery("SELECT f FROM Forecast f WHERE f.location = :location AND f.forecastDate = :forecastDate", Forecast.class)
+                    session.createQuery("SELECT f FROM Forecast f WHERE f.location = :location AND f.forecastDate = :forecastDate ORDER BY f.createDate DESC", Forecast.class)
                             .setParameter("location", location)
                             .setParameter("forecastDate", forecastDate)
-                            // .setMaxResults()
+                            .setMaxResults(1)
                             .getResultList()
                             .stream()
                             .findFirst();

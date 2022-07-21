@@ -23,8 +23,10 @@ public class ForecastService {
             throw new IllegalArgumentException("Ilość dni w przód powinna być w zakresie od 1 do 7");
         }
 
-        Forecast forecast1 = forecastRepository.getActiveForecast(location, LocalDate.now().plusDays(day), Instant.now()).get(); // todo
-        System.out.println("Forecast from DB: " + forecast1);
+        Optional<Forecast> activeForecast = forecastRepository.getActiveForecast(location, LocalDate.now().plusDays(day));// todo
+        if (activeForecast.isPresent()){
+            return activeForecast.get();
+        }
 
         ForecastClientResponse forecastClientResponse = forecastClient.getForecast(day, location.getLongitude(), location.getLatitude());
         Forecast forecast = Forecast.builder()
@@ -35,7 +37,7 @@ public class ForecastService {
                 .windDirection(forecastClientResponse.getWindDirection())
                 .location(location)
                 .createDate(Instant.now())
-                .forecastDate(forecastClientResponse.getForecastDate())
+                .forecastDate(LocalDate.ofInstant(forecastClientResponse.getForecastDate(),ZoneId.of("Europe/Warsaw")))
                 .build();
 
         return forecastRepository.save(forecast);

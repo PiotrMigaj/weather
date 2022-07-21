@@ -5,6 +5,7 @@ import pl.migibud.location.Location;
 
 import javax.persistence.*;
 import java.time.Instant;
+import java.time.LocalDate;
 
 @Entity
 @Table(name = "forecast")
@@ -29,6 +30,6 @@ class Forecast {
 	@JoinColumn(name = "location_id")
 	Location location;
 	Instant createDate;
-	Instant forecastDate;
+	LocalDate forecastDate;
 
 }
