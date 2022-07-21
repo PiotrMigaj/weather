@@ -15,43 +15,44 @@ import java.util.Optional;
 @AllArgsConstructor
 public class ForecastRepositoryHibernateImpl implements ForecastRepository {
 
-	private final SessionFactory sessionFactory;
+    private final SessionFactory sessionFactory;
 
-	@Override
-	public Forecast save(Forecast forecast) {
-		Transaction transaction = null;
-		try (Session session = sessionFactory.openSession()) {
-			transaction = session.beginTransaction();
-			session.persist(forecast);
-			transaction.commit();
-			return forecast;
-		} catch (Exception e) {
-			if (transaction != null) {
-				transaction.rollback();
-			}
-			throw new RuntimeException("Operacja dodania pogody do bazy danych nie powiodła się!");
-		}
-	}
+    @Override
+    public Forecast save(Forecast forecast) {
+        Transaction transaction = null;
+        try (Session session = sessionFactory.openSession()) {
+            transaction = session.beginTransaction();
+            session.persist(forecast);
+            transaction.commit();
+            return forecast;
+        } catch (Exception e) {
+            if (transaction != null) {
+                transaction.rollback();
+            }
+            throw new RuntimeException("Operacja dodania pogody do bazy danych nie powiodła się!");
+        }
+    }
 
-	@Override
-	public Optional<Forecast> getActiveForecast(Location location, LocalDate forecastDate, Instant currentDate) {
-
-		Transaction transaction = null;
-		try (Session session = sessionFactory.openSession()) {
-			transaction = session.beginTransaction();
-			Optional<Forecast> forecast =
-					session.createQuery("SELECT f FROM Forecast f WHERE f.location=:location AND DATE(f.forecastDate) =DATE(:forecastDate)", Forecast.class)
-							.setParameter("location", location)
-							.setParameter("forecastDate", forecastDate)
-							.getResultList()
-							.stream().findFirst();
-			transaction.commit();
-			return forecast;
-		} catch (Exception e) {
-			if (transaction != null) {
-				transaction.rollback();
-			}
-			return Optional.empty();
-		}
-	}
+    @Override
+    public Optional<Forecast> getActiveForecast(Location location, LocalDate forecastDate, Instant currentDate) {
+        Transaction transaction = null;
+        try (Session session = sessionFactory.openSession()) {
+            transaction = session.beginTransaction();
+            Optional<Forecast> forecast =
+                    session.createQuery("SELECT f FROM Forecast f WHERE f.location = :location AND f.forecastDate = :forecastDate", Forecast.class)
+                            .setParameter("location", location)
+                            .setParameter("forecastDate", forecastDate)
+                            // .setMaxResults()
+                            .getResultList()
+                            .stream()
+                            .findFirst();
+            transaction.commit();
+            return forecast;
+        } catch (Exception e) {
+            if (transaction != null) {
+                transaction.rollback();
+            }
+            return Optional.empty();
+        }
+    }
 }

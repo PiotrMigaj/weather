@@ -16,13 +16,17 @@ public class ForecastService {
     private final ForecastClient forecastClient;
     private final ForecastRepository forecastRepository;
 
-    Forecast getForecast(Long locationId, Integer day){
+    Forecast getForecast(Long locationId, Integer day) {
         day = Optional.ofNullable(day).orElse(1);
-        Location location = locationRepository.findById(locationId).orElseThrow(()->new IllegalArgumentException("Nie ma lokalizacji o podanym id!"));
-        if(day<1||day>7){
+        Location location = locationRepository.findById(locationId).orElseThrow(() -> new IllegalArgumentException("Nie ma lokalizacji o podanym id!"));
+        if (day < 1 || day > 7) {
             throw new IllegalArgumentException("Ilość dni w przód powinna być w zakresie od 1 do 7");
         }
-        ForecastClientResponse forecastClientResponse = forecastClient.getForecast(day,location.getLongitude(),location.getLatitude());
+
+        Forecast forecast1 = forecastRepository.getActiveForecast(location, LocalDate.now().plusDays(day), Instant.now()).get(); // todo
+        System.out.println("Forecast from DB: " + forecast1);
+
+        ForecastClientResponse forecastClientResponse = forecastClient.getForecast(day, location.getLongitude(), location.getLatitude());
         Forecast forecast = Forecast.builder()
                 .temperature(forecastClientResponse.getTemperature())
                 .pressure(forecastClientResponse.getPressure())
@@ -33,8 +37,6 @@ public class ForecastService {
                 .createDate(Instant.now())
                 .forecastDate(forecastClientResponse.getForecastDate())
                 .build();
-        Forecast forecast1 = forecastRepository.getActiveForecast(location, LocalDate.now().plusDays(day), Instant.now()).get();
-        System.out.println("Forecast from DB: "+forecast1);
 
         return forecastRepository.save(forecast);
     }
