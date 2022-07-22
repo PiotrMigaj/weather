@@ -26,7 +26,13 @@ public class ForecastController {
                 .pressure(forecast.getPressure())
                 .humidity(forecast.getHumidity())
                 .windSpeed(forecast.getWindSpeed())
-//                .windDirection(forecast.getWindDirection())
+                .windDirection(mapWindDegToCompassDirection(forecast.getWindDirection()))
                 .build();
+    }
+
+    private String mapWindDegToCompassDirection(int windDeg){
+        String[] compassDir = {"N","NE","E","SE","S","SW","W","NW","N"};
+        int index = (int)Math.round(windDeg/45.0);
+        return compassDir[index];
     }
 }

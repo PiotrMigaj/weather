@@ -16,5 +16,5 @@ public class ForecastDTO {
 	int humidity;
 	double windSpeed;
 	int pressure;
-	String windDirection; // todo use String (N, S, W, E, NW....)
+	String windDirection;
 }
