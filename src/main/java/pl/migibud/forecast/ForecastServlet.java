@@ -6,7 +6,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import pl.migibud.HibernateUtils;
-import pl.migibud.ObjectMapperUtil;
 import pl.migibud.forecast.forecastapi.ForecastClient;
 import pl.migibud.location.LocationRepositoryHibernateImpl;
 
