@@ -1,6 +1,8 @@
 package pl.migibud.forecast;
 
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import pl.migibud.forecast.forecastapi.ForecastClient;
 import pl.migibud.forecast.forecastapi.ForecastClientResponse;
 import pl.migibud.location.Location;
@@ -11,7 +13,6 @@ import java.util.Optional;
 
 @RequiredArgsConstructor
 public class ForecastService {
-
 	private static final int MAX_OFFSET_BETWEEN_WEATHER_CHECK_IN_HOURS = 24;
 	private final LocationRepository locationRepository;
 	private final ForecastClient forecastClient;

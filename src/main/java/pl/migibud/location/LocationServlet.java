@@ -37,7 +37,7 @@ public class LocationServlet extends HttpServlet {
     }
 
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         resp.setContentType("application/json;charset=UTF-8");
         List<LocationDTO> locationDTOS = locationService.getAll().stream()
                 .map(LocationMapper::mapToLocationDTO)
@@ -46,7 +46,7 @@ public class LocationServlet extends HttpServlet {
     }
 
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         try {
             resp.setContentType("application/json;charset=UTF-8");
             LocationDTO locationDTO = objectMapper.readValue(req.getInputStream(), LocationDTO.class);
@@ -55,7 +55,7 @@ public class LocationServlet extends HttpServlet {
             LocationDTO response = LocationMapper.mapToLocationDTO(location);
             objectMapper.writeValue(resp.getOutputStream(), response);
         } catch (Exception e) {
-            objectMapper.writeValue(resp.getOutputStream(), String.format("{\"errorMessage\":\"%s\"}", e.getMessage()));
+            resp.getWriter().println(String.format("{\"errorMessage\":\"%s\"}", e.getMessage()));
         }
     }
 }

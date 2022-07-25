@@ -1,8 +1,12 @@
 package pl.migibud.forecast.forecastapi;
 
 
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import pl.migibud.forecast.ForecastServlet;
 
 import java.net.URI;
 import java.net.http.HttpClient;
@@ -14,10 +18,9 @@ import java.time.Instant;
 public class ForecastClient {
 
 	private static final String API_ID = ForecastClientApiId.API_ID;
-
 	private final ObjectMapper objectMapper;
-
 	public ForecastClientResponse getForecast(Integer day, Integer longitude, Integer latitude){
+		objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 		String uri = String.format("https://api.openweathermap.org/data/2.5/onecall?lat=%s&lon=%s&units=metric&exclude=hourly,minutely,alerts&appid=%s",longitude,latitude,API_ID);
 
 		HttpClient httpClient = HttpClient.newHttpClient();
@@ -30,8 +33,7 @@ public class ForecastClient {
 			HttpResponse<String> httpResponse = httpClient.send(httpRequest, HttpResponse.BodyHandlers.ofString());
 			String responseJson = httpResponse.body();
 			ForecastClientResponseDTO forecastClientResponseDTO = objectMapper.readValue(responseJson, ForecastClientResponseDTO.class);
-			ForecastClientResponse forecastClientResponse = mapToForecastClientResponse(day, forecastClientResponseDTO);
-			return forecastClientResponse;
+			return mapToForecastClientResponse(day, forecastClientResponseDTO);
 		} catch (Exception e) {
 			throw new RuntimeException("Pobieranie pogody nie powiodło się: "+e.getMessage());
 		}
