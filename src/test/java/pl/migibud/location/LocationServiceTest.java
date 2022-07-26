@@ -19,7 +19,7 @@ class LocationServiceTest {
 	}
 
 	@Test
-	void createLocation_whenAllDataIsCorrect_returnsCorrectLocationObject(){
+	void createLocation_whenAllDataAreCorrect_returnsCorrectLocationEntity(){
 		//when
 		Location location = locationService.create("Wrocław", "Dolny Śląsk", "Polska", 45, 50);
 		//then
@@ -33,7 +33,7 @@ class LocationServiceTest {
 	}
 
 	@Test
-	void createLocation_whenAllDataIsCorrectExceptRegionWhichIsBlank_returnsCorrectLocationObjectWithNullRegion(){
+	void createLocation_whenAllDataAreCorrectExceptRegionWhichIsBlank_returnsCorrectLocationEntityWithNullRegion(){
 		//when
 		Location location = locationService.create("Wrocław", "", "Polska", 45, 50);
 		//then
@@ -46,7 +46,7 @@ class LocationServiceTest {
 	}
 
 	@Test
-	void createLocation_whenAllDataIsCorrectExceptRegionWhichIsNull_returnsCorrectLocationObjectWithNullRegion(){
+	void createLocation_whenAllDataAreCorrectExceptRegionWhichIsNull_returnsCorrectLocationEntityWithNullRegion(){
 		//when
 		Location location = locationService.create("Wrocław", null, "Polska", 45, 50);
 		//then

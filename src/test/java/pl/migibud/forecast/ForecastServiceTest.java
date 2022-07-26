@@ -21,13 +21,13 @@ class ForecastServiceTest {
         LocationRepository locationRepository = new LocationRepositoryMock();
         objectMapper = new ObjectMapper();
         forecastClient = new ForecastClient(objectMapper);
-        forecastService = new ForecastService(locationRepository, forecastClient,new ForecastRepositoryHibernateImpl(HibernateUtils.getSessionFactory()));
+        forecastService = new ForecastService(locationRepository, forecastClient,new ForecastRepositoryMock());
     }
 
     @Test
     void getForecast_whenIdIsNull_throwsAnException(){
         //then
-        assertThatThrownBy(()->forecastService.getForecast(10L,2))
+        assertThatThrownBy(()->forecastService.getForecast(null,2))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessageContaining("id");
     }
@@ -47,11 +47,4 @@ class ForecastServiceTest {
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessageContaining("Ilość dni");
     }
-
-
-
-
-
-
-
 }

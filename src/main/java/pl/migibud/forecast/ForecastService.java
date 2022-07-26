@@ -9,6 +9,7 @@ import pl.migibud.location.Location;
 import pl.migibud.location.LocationRepository;
 
 import java.time.*;
+import java.util.List;
 import java.util.Optional;
 
 @RequiredArgsConstructor
@@ -44,6 +45,10 @@ public class ForecastService {
 				.build();
 
 		return forecastRepository.save(forecast);
+	}
+
+	List<Forecast> getAll(){
+		return forecastRepository.findAll();
 	}
 
 	private boolean ifThereIsValidForecastInRepo(Optional<Forecast> activeForecastOptional) {

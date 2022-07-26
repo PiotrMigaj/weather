@@ -47,7 +47,7 @@
                 <input type="number" id="days" placeholder="Number of days"/>
                 <br/>
                 <button class="pure-button pure-button-primary" id="getForecast">Submit</button>
-                <button class="pure-button pure-button-primary" id="displayForecasts">Display all locations</button>
+                <button class="pure-button pure-button-primary" id="displayForecasts">Display all forecasts</button>
             </div>
         </fieldset>
     </form>
@@ -88,7 +88,8 @@
             );
     });
 
-    const URL_LOCATION_FORECAST = 'http://localhost:8080/forecast';
+    const URL_FORECAST = 'http://localhost:8080/forecast';
+    const URL_FORECASTS = 'http://localhost:8080/forecasts';
     const innerDiv_forecast = document.getElementById('innerDivForecast');
 
     document.getElementById('getForecast').addEventListener('click', (event) => {
@@ -97,12 +98,22 @@
             id: document.getElementById("locationId").value,
             days: document.getElementById("days").value
         }
-        fetch(`${URL_LOCATION_FORECAST}?${new URLSearchParams(formObj)}`)
+        fetch(`${URL_FORECAST}?${new URLSearchParams(formObj)}`)
             .then(response => response.json())
             .then((json)=>
             innerDiv_forecast.innerHTML=`<p>${JSON.stringify(json)}</p>`
             );
     });
+
+    document.getElementById('displayForecasts').addEventListener('click', (event) => {
+        event.preventDefault();
+        fetch(URL_FORECASTS)
+            .then(response => response.json())
+            .then((json)=>
+            innerDiv_forecast.innerHTML=`<p>${JSON.stringify(json)}</p>`
+            );
+    });
+
 
 </script>
 </body>
