@@ -29,14 +29,13 @@ public class ForecastServlet extends HttpServlet {
 
 	public ForecastServlet() {
 		this(new ForecastService(new LocationRepositoryHibernateImpl(HibernateUtils.getSessionFactory()),
-				new ForecastClient(new ObjectMapper()),
+				new ForecastClient(new ObjectMapper().configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)),
 				new ForecastRepositoryHibernateImpl(HibernateUtils.getSessionFactory())),
-				new ObjectMapper()
+				new ObjectMapper().configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
 				);
 	}
 	public ForecastServlet(ForecastService forecastService, ObjectMapper objectMapper) {
 		this.objectMapper = objectMapper;
-		objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 		this.forecastService = forecastService;
 	}
 

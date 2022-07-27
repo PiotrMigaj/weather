@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface ForecastRepository {
-    Forecast save(Forecast location);
+    Forecast save(Forecast forecast);
     Optional<Forecast> getActiveForecast(Location location, LocalDate forecastDate);
     List<Forecast> findAll();
 }

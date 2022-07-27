@@ -8,8 +8,8 @@ public class LocationRepositoryMock implements LocationRepository {
 	private List<Location> locations;
 
 	public LocationRepositoryMock() {
-		Location location1 = new Location(1L, "Wrocław", "Dolny Śląsk", "Polska", 118, -45, null);
-		Location location2 = new Location(2L, "Poznań", "Wielkopolska", "Polska", 125, -38, null);
+		Location location1 = new Location(1L, "Wrocław", "Dolny Śląsk", "Polska", 51, 17, null);
+		Location location2 = new Location(2L, "Poznań", "Wielkopolska", "Polska", 53, 16, null);
 		this.locations = List.of(location1, location2);
 	}
 

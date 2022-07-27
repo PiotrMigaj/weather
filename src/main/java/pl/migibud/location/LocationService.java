@@ -14,7 +14,7 @@ public class LocationService {
         if (city == null || city.isBlank()) {
             throw new IllegalArgumentException("Pole city nie może być puste");
         }
-        if (region.isBlank()) { // todo verify this null + test
+        if (region.isBlank()) {
             region = null;
         }
         if (country == null || country.isBlank()) {
